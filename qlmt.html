@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý máy móc thiết bị - EUSTEEL</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f3f5f8;
+    color: #263238;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: #17212b;
+    color: white;
+    padding: 20px 12px;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px 15px 25px;
+    color: #ffffff;
+}
+
+.logo span {
+    color: #29a3ef;
+}
+
+.menu-title {
+    font-size: 12px;
+    color: #8d9aa5;
+    padding: 15px;
+    text-transform: uppercase;
+}
+
+.menu button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #dbe3e8;
+    padding: 13px 15px;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.menu button:hover,
+.menu button.active {
+    background: #2196f3;
+    color: white;
+}
+
+/* MAIN */
+.main {
+    margin-left: 240px;
+    min-height: 100vh;
+}
+
+.topbar {
+    background: white;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+.topbar h2 {
+    font-size: 20px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #2196f3;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.content {
+    padding: 25px 30px;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
+.card-title {
+    font-size: 13px;
+    color: #78909c;
+    margin-bottom: 10px;
+}
+
+.card-value {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.card-icon {
+    float: right;
+    font-size: 30px;
+}
+
+.blue {
+    color: #2196f3;
+}
+
+.green {
+    color: #2e9d59;
+}
+
+.orange {
+    color: #f39c12;
+}
+
+.red {
+    color: #e53935;
+}
+
+/* GRID */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.panel-header h3 {
+    font-size: 17px;
+}
+
+/* TABLE */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #f5f7f9;
+    text-align: left;
+    padding: 12px;
+    font-size: 13px;
+    color: #607d8b;
+}
+
+td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #edf0f2;
+    font-size: 13px;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status.active {
+    background: #e5f7eb;
+    color: #228b4b;
+}
+
+.status.stop {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.status.maintenance {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+/* BUTTON */
+.btn {
+    border: none;
+    padding: 9px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: #2196f3;
+    color: white;
+}
+
+.btn-success {
+    background: #2e9d59;
+    color: white;
+}
+
+.btn-danger {
+    background: #e53935;
+    color: white;
+}
+
+.btn:hover {
+    opacity: .85;
+}
+
+/* SEARCH */
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 11px 13px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+}
+
+/* FORM */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #d5dce1;
+    border-radius: 6px;
+}
+
+.form-group textarea {
+    min-height: 90px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-box {
+    width: 600px;
+    max-width: 95%;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.close {
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.modal-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* CHART */
+.chart {
+    display: flex;
+    height: 220px;
+    align-items: flex-end;
+    gap: 25px;
+    padding: 20px;
+}
+
+.bar-item {
+    flex: 1;
+    text-align: center;
+}
+
+.bar {
+    background: #2196f3;
+    border-radius: 6px 6px 0 0;
+    min-height: 20px;
+}
+
+.bar-label {
+    font-size: 11px;
+    margin-top: 7px;
+}
+
+/* ALERT */
+.alert {
+    padding: 12px;
+    background: #fff8e1;
+    border-left: 4px solid #ffb300;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+/* PAGE */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* RESPONSIVE */
+@media(max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        width: 65px;
+    }
+
+    .logo {
+        font-size: 0;
+    }
+
+    .logo span {
+        font-size: 20px;
+    }
+
+    .menu button {
+        font-size: 0;
+        text-align: center;
+    }
+
+    .menu button::first-letter {
+        font-size: 20px;
+    }
+
+    .main {
+        margin-left: 65px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <div class="logo">
+        EUS<span>TEEL</span>
+    </div>
+
+    <div class="menu-title">QUẢN LÝ</div>
+
+    <div class="menu">
+        <button class="active" onclick="showPage('dashboard', this)">
+            🏠 Tổng quan
+        </button>
+
+        <button onclick="showPage('machines', this)">
+            ⚙️ Máy móc thiết bị
+        </button>
+
+        <button onclick="showPage('maintenance', this)">
+            🔧 Bảo trì
+        </button>
+
+        <button onclick="showPage('incidents', this)">
+            ⚠️ Sự cố
+        </button>
+
+        <button onclick="showPage('spareparts', this)">
+            📦 Phụ tùng
+        </button>
+
+        <button onclick="showPage('reports', this)">
+            📊 Báo cáo
+        </button>
+    </div>
+
+    <div class="menu-title">HỆ THỐNG</div>
+
+    <div class="menu">
+        <button>👥 Người dùng</button>
+        <button>⚙️ Cài đặt</button>
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="topbar">
+
+        <h2 id="pageTitle">Tổng quan thiết bị</h2>
+
+        <div class="user">
+            <span>Quản lý sản xuất</span>
+            <div class="avatar">K</div>
+        </div>
+
+    </div>
+
+
+    <div class="content">
+
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="page active">
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-icon blue">⚙️</div>
+                    <div class="card-title">TỔNG SỐ MÁY</div>
+                    <div class="card-value blue" id="totalMachines">12</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon green">✓</div>
+                    <div class="card-title">ĐANG HOẠT ĐỘNG</div>
+                    <div class="card-value green" id="activeMachines">9</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon red">⛔</div>
+                    <div class="card-title">ĐANG DỪNG</div>
+                    <div class="card-value red" id="stopMachines">2</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon orange">🔧</div>
+                    <div class="card-title">ĐANG BẢO TRÌ</div>
+                    <div class="card-value orange" id="maintenanceMachines">1</div>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h3>Tình trạng máy móc</h3>
+                        <button class="btn btn-primary"
+                                onclick="showPage('machines')">
+                            Xem tất cả
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Mã máy</th>
+                                    <th>Tên máy</th>
+                                    <th>Khu vực</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="dashboardMachineTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h3>Cảnh báo</h3>
+                        </div>
+
+                        <div class="alert">
+                            ⚠️ CNC-02 sắp đến hạn bảo trì.
+                        </div>
+
+                        <div class="alert">
+                            ⚠️ Máy nén khí cần kiểm tra dầu.
+                        </div>
+
+                        <div class="alert">
+                            🔴 MIG-03 đang có sự cố.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h3>Thống kê sự cố theo tháng</h3>
+                </div>
+
+                <div class="chart">
+
+                    <div class="bar-item">
+                        <div class="bar" style="height:90px"></div>
+                        <div class="bar-label">T1</div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar" style="height:120px"></div>
+                        <div class="bar-label">T2</div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar" style="height:70px"></div>
+                        <div class="bar-label">T3</div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar" style="height:150px"></div>
+                        <div class="bar-label">T4</div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar" style="height:110px"></div>
+                        <div class="bar-label">T5</div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar" style="height:60px"></div>
+                        <div class="bar-label">T6</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MACHINES -->
+        <div id="machines" class="page">
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>Danh sách máy móc thiết bị</h3>
+
+                    <button class="btn btn-primary"
+                            onclick="openModal()">
+                        + Thêm máy
+                    </button>
+
+                </div>
+
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        id="searchMachine"
+                        placeholder="Tìm mã máy, tên máy, khu vực..."
+                        onkeyup="searchMachine()"
+                    >
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Mã máy</th>
+                                <th>Tên máy</th>
+                                <th>Model</th>
+                                <th>Khu vực</th>
+                                <th>Người phụ trách</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="machineTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAINTENANCE -->
+        <div id="maintenance" class="page">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h3>Lịch bảo trì thiết bị</h3>
+
+                    <button class="btn btn-primary">
+                        + Tạo lịch bảo trì
+                    </button>
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Mã máy</th>
+                            <th>Hạng mục</th>
+                            <th>Loại</th>
+                            <th>Người thực hiện</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>18/09/2026</td>
+                            <td>CNC-01</td>
+                            <td>Vệ sinh cụm dao</td>
+                            <td>Hàng ngày</td>
+                            <td>Nguyễn Văn A</td>
+                            <td><span class="status active">Đã thực hiện</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>20/09/2026</td>
+                            <td>CNC-02</td>
+                            <td>Kiểm tra hệ thống khí</td>
+                            <td>Hàng tuần</td>
+                            <td>Trần Văn B</td>
+                            <td><span class="status maintenance">Sắp đến hạn</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>25/09/2026</td>
+                            <td>AIR-01</td>
+                            <td>Thay dầu máy nén khí</td>
+                            <td>Hàng tháng</td>
+                            <td>Lê Văn C</td>
+                            <td><span class="status maintenance">Chưa thực hiện</span></td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- INCIDENTS -->
+        <div id="incidents" class="page">
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>Quản lý sự cố</h3>
+
+                    <button class="btn btn-danger"
+                            onclick="alert('Chức năng ghi nhận sự cố sẽ mở rộng trong phiên bản tiếp theo.')">
+                        + Ghi nhận sự cố
+                    </button>
+
+                </div>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Ngày</th>
+                            <th>Mã máy</th>
+                            <th>Sự cố</th>
+                            <th>Nguyên nhân</th>
+                            <th>Downtime</th>
+                            <th>Người xử lý</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>15/09/2026</td>
+                            <td>MIG-03</td>
+                            <td>Không cấp dây hàn</td>
+                            <td>Con lăn mòn</td>
+                            <td>45 phút</td>
+                            <td>Nguyễn Văn A</td>
+                        </tr>
+
+                        <tr>
+                            <td>12/09/2026</td>
+                            <td>CNC-02</td>
+                            <td>Lỗi cảm biến</td>
+                            <td>Bụi kim loại</td>
+                            <td>30 phút</td>
+                            <td>Trần Văn B</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- SPARE PARTS -->
+        <div id="spareparts" class="page">
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>Quản lý phụ tùng</h3>
+
+                    <button class="btn btn-primary">
+                        + Thêm phụ tùng
+                    </button>
+
+                </div>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Mã phụ tùng</th>
+                            <th>Tên phụ tùng</th>
+                            <th>Máy sử dụng</th>
+                            <th>Tồn kho</th>
+                            <th>Tồn tối thiểu</th>
+                            <th>Trạng thái</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>PT-001</td>
+                            <td>Con lăn dẫn hướng</td>
+                            <td>MIG-01</td>
+                            <td>5</td>
+                            <td>2</td>
+                            <td><span class="status active">Đủ</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>PT-002</td>
+                            <td>Van điện từ 4V210-08</td>
+                            <td>CNC-01</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td><span class="status stop">Sắp hết</span></td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- REPORTS -->
+        <div id="reports" class="page">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h3>Báo cáo quản lý thiết bị</h3>
+                </div>
+
+                <div class="cards">
+
+                    <div class="card">
+                        <div class="card-title">TỔNG DOWNTIME</div>
+                        <div class="card-value">18,5 giờ</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">SỐ SỰ CỐ</div>
+                        <div class="card-value red">17</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">MTBF</div>
+                        <div class="card-value blue">142 giờ</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">MTTR</div>
+                        <div class="card-value orange">42 phút</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL THÊM MÁY -->
+<div class="modal" id="machineModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h3>Thêm máy móc thiết bị</h3>
+
+            <span class="close" onclick="closeModal()">×</span>
+
+        </div>
+
+
+        <form id="machineForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Mã máy</label>
+                    <input id="machineCode" required
+                           placeholder="VD: CNC-03">
+                </div>
+
+                <div class="form-group">
+                    <label>Tên máy</label>
+                    <input id="machineName" required
+                           placeholder="Tên thiết bị">
+                </div>
+
+                <div class="form-group">
+                    <label>Model</label>
+                    <input id="machineModel"
+                           placeholder="Model">
+                </div>
+
+                <div class="form-group">
+                    <label>Khu vực</label>
+                    <input id="machineArea"
+                           placeholder="Xưởng 1">
+                </div>
+
+                <div class="form-group">
+                    <label>Người phụ trách</label>
+                    <input id="machinePerson"
+                           placeholder="Họ tên">
+                </div>
+
+                <div class="form-group">
+                    <label>Trạng thái</label>
+
+                    <select id="machineStatus">
+
+                        <option value="active">
+                            Đang hoạt động
+                        </option>
+
+                        <option value="stop">
+                            Đang dừng
+                        </option>
+
+                        <option value="maintenance">
+                            Đang bảo trì
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn"
+                        onclick="closeModal()">
+                    Hủy
+                </button>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Lưu máy
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==============================
+   DATA
+============================== */
+
+let machines = JSON.parse(
+    localStorage.getItem("eusteelMachines")
+) || [
+
+    {
+        code:"CNC-01",
+        name:"Máy CNC Laser",
+        model:"CNC Laser 3015",
+        area:"Xưởng 1",
+        person:"Nguyễn Văn A",
+        status:"active"
+    },
+
+    {
+        code:"CNC-02",
+        name:"Máy CNC",
+        model:"CNC-1530",
+        area:"Xưởng 1",
+        person:"Trần Văn B",
+        status:"maintenance"
+    },
+
+    {
+        code:"MIG-01",
+        name:"Máy hàn MIG",
+        model:"JASIC MIG 250",
+        area:"Xưởng 2",
+        person:"Lê Văn C",
+        status:"active"
+    },
+
+    {
+        code:"MIG-02",
+        name:"Máy hàn MIG",
+        model:"MIG 250",
+        area:"Xưởng 2",
+        person:"Phạm Văn D",
+        status:"active"
+    },
+
+    {
+        code:"MIG-03",
+        name:"Máy hàn MIG",
+        model:"MIG 250",
+        area:"Xưởng 2",
+        person:"Nguyễn Văn E",
+        status:"stop"
+    },
+
+    {
+        code:"AIR-01",
+        name:"Máy nén khí",
+        model:"Air Compressor",
+        area:"Phòng máy",
+        person:"Nguyễn Văn F",
+        status:"active"
+    }
+
+];
+
+
+/* ==============================
+   SAVE DATA
+============================== */
+
+function saveData() {
+
+    localStorage.setItem(
+        "eusteelMachines",
+        JSON.stringify(machines)
+    );
+
+}
+
+
+/* ==============================
+   STATUS
+============================== */
+
+function statusText(status) {
+
+    if(status === "active")
+        return `<span class="status active">Đang hoạt động</span>`;
+
+    if(status === "stop")
+        return `<span class="status stop">Đang dừng</span>`;
+
+    return `<span class="status maintenance">Đang bảo trì</span>`;
+
+}
+
+
+/* ==============================
+   LOAD TABLE
+============================== */
+
+function loadMachines() {
+
+    const table =
+        document.getElementById("machineTable");
+
+    table.innerHTML = "";
+
+    machines.forEach((m,index) => {
+
+        table.innerHTML += `
+
+        <tr>
+
+            <td><b>${m.code}</b></td>
+
+            <td>${m.name}</td>
+
+            <td>${m.model}</td>
+
+            <td>${m.area}</td>
+
+            <td>${m.person}</td>
+
+            <td>${statusText(m.status)}</td>
+
+            <td>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="deleteMachine(${index})">
+                    Xóa
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    updateDashboard();
+
+}
+
+
+/* ==============================
+   DASHBOARD
+============================== */
+
+function updateDashboard() {
+
+    const total = machines.length;
+
+    const active =
+        machines.filter(m => m.status === "active").length;
+
+    const stop =
+        machines.filter(m => m.status === "stop").length;
+
+    const maintenance =
+        machines.filter(m => m.status === "maintenance").length;
+
+    document.getElementById("totalMachines")
+        .innerText = total;
+
+    document.getElementById("activeMachines")
+        .innerText = active;
+
+    document.getElementById("stopMachines")
+        .innerText = stop;
+
+    document.getElementById("maintenanceMachines")
+        .innerText = maintenance;
+
+
+    const dashboardTable =
+        document.getElementById(
+            "dashboardMachineTable"
+        );
+
+    dashboardTable.innerHTML = "";
+
+    machines.slice(0,5).forEach(m => {
+
+        dashboardTable.innerHTML += `
+
+        <tr>
+
+            <td><b>${m.code}</b></td>
+
+            <td>${m.name}</td>
+
+            <td>${m.area}</td>
+
+            <td>${statusText(m.status)}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* ==============================
+   DELETE
+============================== */
+
+function deleteMachine(index) {
+
+    if(confirm("Bạn có chắc muốn xóa máy này?")) {
+
+        machines.splice(index,1);
+
+        saveData();
+
+        loadMachines();
+
+    }
+
+}
+
+
+/* ==============================
+   SEARCH
+============================== */
+
+function searchMachine() {
+
+    const keyword =
+        document.getElementById(
+            "searchMachine"
+        ).value.toLowerCase();
+
+    const rows =
+        document.querySelectorAll(
+            "#machineTable tr"
+        );
+
+    rows.forEach(row => {
+
+        row.style.display =
+            row.innerText
+            .toLowerCase()
+            .includes(keyword)
+            ? ""
+            : "none";
+
+    });
+
+}
+
+
+/* ==============================
+   PAGE
+============================== */
+
+function showPage(pageId, button) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+    document
+        .getElementById(pageId)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll(".menu button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    if(button) {
+        button.classList.add("active");
+    }
+
+
+    const titles = {
+
+        dashboard:
+            "Tổng quan thiết bị",
+
+        machines:
+            "Quản lý máy móc thiết bị",
+
+        maintenance:
+            "Quản lý bảo trì",
+
+        incidents:
+            "Quản lý sự cố",
+
+        spareparts:
+            "Quản lý phụ tùng",
+
+        reports:
+            "Báo cáo thiết bị"
+
+    };
+
+    document.getElementById(
+        "pageTitle"
+    ).innerText = titles[pageId];
+
+}
+
+
+/* ==============================
+   MODAL
+============================== */
+
+function openModal() {
+
+    document.getElementById(
+        "machineModal"
+    ).style.display = "flex";
+
+}
+
+function closeModal() {
+
+    document.getElementById(
+        "machineModal"
+    ).style.display = "none";
+
+}
+
+
+/* ==============================
+   ADD MACHINE
+============================== */
+
+document
+.getElementById("machineForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+
+    const machine = {
+
+        code:
+            document.getElementById(
+                "machineCode"
+            ).value,
+
+        name:
+            document.getElementById(
+                "machineName"
+            ).value,
+
+        model:
+            document.getElementById(
+                "machineModel"
+            ).value,
+
+        area:
+            document.getElementById(
+                "machineArea"
+            ).value,
+
+        person:
+            document.getElementById(
+                "machinePerson"
+            ).value,
+
+        status:
+            document.getElementById(
+                "machineStatus"
+            ).value
+
+    };
+
+
+    machines.push(machine);
+
+    saveData();
+
+    loadMachines();
+
+    closeModal();
+
+    this.reset();
+
+    alert("Đã thêm máy thành công!");
+
+});
+
+
+/* ==============================
+   START
+============================== */
+
+loadMachines();
+
+</script>
+
+</body>
+</html>
